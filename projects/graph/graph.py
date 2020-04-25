@@ -93,18 +93,34 @@ class Graph:
 
         This should be done using recursion.
         """
-        visited.add(starting_vertex)
+        def dft_recursive_helper(current_node):
 
-        edges = self.get_neighbors(starting_vertex)
+            while current_node not in visited:
 
-        if len(edges) == 0:
-            return
-        else:
-            for edge in edges:
-                if edge not in visited:
-                    self.dfs_recursive(edge, visited)
-                else:
-                    return
+                visited.add(current_node)
+                print(current_node)
+                # recusion call
+                for neighbor in self.get_neighbors(current_node):
+                    dft_recursive_helper(neighbor)
+
+        # Check if the node has been visited
+        current_node = starting_vertex
+        visited = set()
+        # Call helper function
+        dft_recursive_helper(starting_vertex)
+
+        # visited.add(starting_vertex)
+
+        # edges = self.get_neighbors(starting_vertex)
+
+        # if len(edges) == 0:
+        #     return
+        # else:
+        #     for edge in edges:
+        #         if edge not in visited:
+        #             self.dfs_recursive(edge, visited)
+        #         else:
+        #             return
 
     # Part 5: Implement Breadth-First Search
     # always returns shortest path
@@ -115,23 +131,23 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        # create an empty queue and enqueue a PATH to the staring starting vertex
+        # create a empty queue, and enqueue a PATH to the starting vertex
         neighbors_to_visit = Queue()
-        neighbors_to_visit.enqueue(starting_vertex)
+        neighbors_to_visit.enqueue([starting_vertex])
         # create a set for visited vertices
         visited_vertices = set()
         # while the queue is not empty
         while neighbors_to_visit.size() > 0:
-            # dequeue the first PATH
+            # dequeue the first PATH in the queue
             current_path = neighbors_to_visit.dequeue()
             # grab the last vertex in the path
             current_vertex = current_path[-1]
-            # if it has not been visited
+            # if it hasn't been visited
             if current_vertex not in visited_vertices:
-                # check if it is the target
+                # check if its the target
                 if current_vertex == destination_vertex:
                     return current_path
-                    # return the path
+                    # Return the path
                 # mark it as visited
                 visited_vertices.add(current_vertex)
                 # make new versions of the current path, with each neighbor added to them
@@ -180,7 +196,28 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        def dfs_recursive_helper(current_path):
+            # If not...
+            if current_path[-1] not in visited:
+                # Mark it as visited, and print
+                visited.add(current_path[-1])
+                # if it's a match, return
+                if current_path[-1] == destination_vertex:
+                    return current_path
+                # Call dft_recursive on each neighbor
+                for neighbor in self.get_neighbors(current_path[-1]):
+                    path_copy = current_path.copy()
+                    path_copy.append(neighbor)
+                    possible_answer = dfs_recursive_helper(path_copy)
+                    if (possible_answer is not None):
+                        return possible_answer
+            # return None
+
+        # Check if the node has been visited
+        current_path = [starting_vertex]
+        visited = set()
+        # Call helper function
+        return dfs_recursive_helper(current_path)
 
 
 if __name__ == '__main__':
