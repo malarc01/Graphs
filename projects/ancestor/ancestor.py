@@ -61,8 +61,15 @@ def earliest_ancestor(ancestors, starting_node):
             earliest_ancestor = current_node
 
         neighbors = graph.vertices[current_node]
+        # print(neighbors)
         for ancestor in neighbors:
             path_copy = list(path)
             path_copy.append(ancestor)
             queue.enqueue(path_copy)
     return earliest_ancestor
+
+
+# ta = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7),
+#       (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
+
+# print(earliest_ancestor(ta, 11))
